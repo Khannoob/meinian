@@ -1,0 +1,9 @@
+com\sysu\security\CustomAccessDeniedHandler.class
+com\sysu\controller\ReportController.class
+com\sysu\security\SpringSecurityUserService.class
+com\sysu\controller\SetMealController.class
+com\sysu\controller\OrderSettingController.class
+com\sysu\controller\TravelGroupController.class
+com\sysu\controller\AddressController.class
+com\sysu\controller\TravelItemController.class
+com\sysu\controller\UserController.class

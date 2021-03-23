@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.TravelItemMapper">
+
+    <insert id="add">
+        insert into
+            t_travelitem(code, name, sex, age, price, type, remark, attention )
+        values (#{code}, #{name}, #{sex}, #{age}, #{price}, #{type}, #{remark}, #{attention})
+    </insert>
+
+    <select id="findPage" resultType="TravelItem">
+        select * from
+            t_travelitem
+        <if test="value!=null and value.length > 0">
+            <where>
+            code = #{value} or name like concat('%',#{value},'%')
+            </where>
+        </if>
+    </select>
+
+    <select id="selectTravelGroup_TravelItemByTravelItemId" resultType="long">
+        select
+            count(1)
+        from
+            t_travelgroup_travelitem
+        where
+            travelitem_id=#{id}
+    </select>
+
+    <delete id="delete">
+        delete from t_travelitem where id=#{id}
+    </delete>
+
+    <select id="queryOneItemById" resultType="TravelItem">
+        select * from t_travelitem where id=#{id}
+    </select>
+
+    <update id="edit" parameterType="TravelItem">
+        update
+            t_travelitem
+        <set>
+            <if test="code != null" >code=#{code},</if>
+            <if test="name != null" >name=#{name},</if>
+            <if test="sex != null" >sex=#{sex},</if>
+            <if test="age != null" >age=#{age},</if>
+            <if test="price != null" >price=#{price},</if>
+            <if test="type != null" >type=#{type},</if>
+            <if test="remark != null" >remark=#{remark},</if>
+            <if test="attention != null" >attention=#{attention}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findAll" resultType="TravelItem">
+        select * from t_travelitem
+    </select>
+
+    <select id="findTravelItemListByTravelGroupId" resultType="TravelItem" parameterType="int">
+        SELECT * FROM t_travelitem WHERE
+            id IN(
+                    SELECT travelitem_id
+                    FROM t_travelgroup_travelitem
+                    WHERE travelgroup_id = #{travelgroupId}
+            )
+    </select>
+</mapper>

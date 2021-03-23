@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.MemberMapper">
+<select id="findMemberByTelephone" resultType="member">
+    select * from
+        t_member
+    where
+        phoneNumber = #{telephone}
+</select>
+
+<insert id="addMember" parameterType="member" keyProperty="id" useGeneratedKeys="true">
+    insert into
+        t_member(fileNumber, name, sex, idCard, phoneNumber, regTime, password, email, birthday, remark)
+    values (#{fileNumber}, #{name}, #{sex}, #{idCard}, #{phoneNumber}, #{regTime}, #{password}, #{email}, #{birthday}, #{remark})
+
+</insert>
+
+<select id="queryMemberByMonth" resultType="int" >
+    select count(1) from t_member where regTime &lt;= #{lastDayOfMonth}
+</select>
+    <select id="getTodayNewMember" resultType="int">
+        select count(1) from t_member where regTime = #{today}
+    </select>
+    <select id="getTotalMember" resultType="int">
+        select count(1) from t_member
+    </select>
+    <select id="getThisWeekAndMonthNewMember" resultType="int">
+        select count(1) from t_member where regTime &gt;= #{firstDay}
+    </select>
+</mapper>

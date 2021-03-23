@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.OrderMapper">
+<select id="findOrderByDateMemberIdAndSetMealId" resultType="order">
+    select * from
+        t_order
+    where
+        orderDate=#{orderDate} and member_id=#{memberId} and setmeal_id = #{setMealId}
+</select>
+
+<insert id="addOrder" parameterType="order" keyProperty="id" useGeneratedKeys="true">
+    insert into
+        t_order(member_id, orderDate, orderType, orderStatus, setmeal_id)
+    values (#{memberId}, #{orderDate}, #{orderType}, #{orderStatus}, #{setmealId})
+</insert>
+
+<select id="findById" resultType="map">
+  select m.name member ,s.name setmeal,o.orderDate orderDate,o.orderType orderType
+  from
+  t_order o,
+  t_member m,
+  t_setmeal s
+  where o.member_id=m.id and o.setmeal_id=s.id and o.id=#{id}
+
+</select>
+
+    <select id="getTodayOrderNumber" resultType="int">
+        select count(1) from t_order where orderDate = #{today}
+    </select>
+    <select id="getTodayVisitsNumber" resultType="int">
+        select count(1) from t_order where orderDate = #{today} and orderStatus = '已出游'
+    </select>
+    <select id="getThisWeekAndMonthOrderNumber" parameterType="map" resultType="int">
+        select count(1) from t_order where orderDate between #{begin} and #{end}
+    </select>
+    <select id="getThisWeekAndMonthVisitsNumber" resultType="int" parameterType="map">
+        select count(1) from t_order where orderDate between #{begin} and #{end} and orderStatus = '已出游'
+    </select>
+    <select id="findHotSetmeal" resultType="map">
+        SELECT s.`name` `name`,count(s.`name`) setmeal_count,count(s.`name`)/(SELECT count(1) FROM t_order) proportion
+        FROM t_setmeal s, t_order o
+        WHERE s.`id`=o.`setmeal_id`
+        GROUP BY s.`name`
+        ORDER BY count(s.`name`) DESC
+        LIMIT 0,3;
+    </select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/mvc
+                  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                  http://code.alibabatech.com/schema/dubbo
+                  http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+                  http://www.springframework.org/schema/context
+                  http://www.springframework.org/schema/context/spring-context.xsd
+                          http://www.springframework.org/schema/security
+                          http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <!--
+      ① 配置哪些链接可以放行(没有认证通过也可以访问的资源) 写在拦截前面
+      security="none"：没有权限
+      pattern="/login.html"：没有任何权限，可以访问login.html
+    -->
+
+    <security:http security="none" pattern="/css/**"/>
+    <!-- /**是表示放行静态资源 -->
+    <security:http security="none" pattern="/img/**"/>
+    <security:http security="none" pattern="/login.html"/>
+
+    <!--
+            form-login：定义表单登录信息
+            login-page="/login.html"：表示指定登录页面
+            username-parameter="username"：使用登录名的名称，默认值是username
+            password-parameter="password"：使用登录名的密码，默认值是password
+            login-processing-url="/login.do"：表示登录的url地址
+            default-target-url="/index.html"：登录成功后的url地址
+            authentication-failure-url="/login.html"：认证失败后跳转的url地址，失败后指定/login.html
+            always-use-default-target="true"：登录成功后，始终跳转到default-target-url指定的地址，即登录成功的默认地址
+    -->
+
+    <security:http auto-config="true" use-expressions="true">
+        <security:intercept-url pattern="/index.jsp" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/A.html" access="hasAuthority('add')"/>
+        <security:intercept-url pattern="/B.html" access="hasAuthority('delete')"/>
+        <security:intercept-url pattern="/C.html" access="hasAuthority('ABC')"/>
+        <security:form-login login-page="/login.html"
+                             username-parameter="username"
+                             password-parameter="password"
+                             login-processing-url="/login.do"
+                             default-target-url="/index.jsp"
+                             authentication-failure-url="/login.html"
+                             always-use-default-target="true"/>
+        <!--
+            csrf：对应CsrfFilter过滤器
+            disabled：是否启用CsrfFilter过滤器，如果使用自定义登录页面需要关闭此项，否则登录操作会被禁用（403）
+        -->
+        <security:csrf disabled="true"/>
+        <!--
+          logout：退出登录
+          logout-url：退出登录操作对应的请求路径
+          logout-success-url：退出登录后的跳转页面
+          invalidate-session="true" 默认为true,用户在退出后Http session失效
+        -->
+        <security:logout invalidate-session="true" logout-url="/logout.do" logout-success-url="/login.html"/>
+    </security:http>
+
+
+    <!--
+      ③ 认证管理：定义登录账号和密码，并授予当前用户访问的角色或权限
+        （1）：将用户名和密码：当前用户具有的角色，写死到配置文件中（现在:入门）
+                security:user name="admin" :登录名
+                authorities="ROLE_ADMIN"   ：角色(ROLE_ADMIN),权限
+                password="admin"          ：密码
+         （2）：用户名和密码，当前用户具有的角色，从数据库中查询（后续）
+    -->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="userService">
+        <security:password-encoder ref="passwordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <context:component-scan base-package="com.sysu"/>
+    <mvc:annotation-driven />
+    <security:global-method-security pre-post-annotations="enabled" />
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+</beans>

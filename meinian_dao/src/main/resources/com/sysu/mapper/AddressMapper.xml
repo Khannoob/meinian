@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.AddressMapper">
+
+    <select id="findAllMaps" resultType="Address">
+        select * from t_address
+    </select>
+    <select id="findPage" resultType="Address">
+        select * from
+        t_address
+        <if test="value!=null and value.length > 0">
+            <where>
+                name like concat('%',#{value},'%')
+            </where>
+        </if>
+
+    </select>
+    <insert id="addAddress" parameterType="Address">
+        insert into t_address values(null, #{addressName}, #{lng}, #{lat})
+    </insert>
+
+    <delete id="deleteById">
+        delete from t_address where id=#{id}
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,14 @@
+com\sysu\pojo\Address.class
+com\sysu\pojo\SetMeal.class
+com\sysu\pojo\TravelGroup.class
+com\sysu\pojo\Menu.class
+com\sysu\pojo\Member.class
+com\sysu\pojo\Permission.class
+com\sysu\entity\PageResult.class
+com\sysu\pojo\Order.class
+com\sysu\pojo\User.class
+com\sysu\entity\QueryPageBean.class
+com\sysu\pojo\OrderSetting.class
+com\sysu\pojo\TravelItem.class
+com\sysu\entity\Result.class
+com\sysu\pojo\Role.class

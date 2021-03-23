@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_jobs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_mobile_web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_pojo" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/meinian_web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring_security_demo" charset="UTF-8" />
+  </component>
+</project>

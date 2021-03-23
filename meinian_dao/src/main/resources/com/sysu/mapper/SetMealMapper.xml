@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.SetMealMapper">
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        /* 记得返回自增主键 不然赋值外键失败 */
+        insert into
+            t_setmeal(name, code, helpCode, sex, age, price, remark, attention, img)
+        values
+            (#{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img})
+    </insert>
+
+    <insert id="setTravelGroupAndSetMeal" parameterType="map">
+        insert into
+            t_setmeal_travelgroup
+        values
+            (#{setMealId},#{travelGroupId})
+    </insert>
+
+    <select id="findPage" parameterType="string" resultType="setMeal">
+        select * from
+            t_setmeal
+        <where>
+            <if test="value != null"> code = #{value} or name like concat('%',#{value},'%') or helpcode = #{value}</if>
+        </where>
+    </select>
+
+    <select id="getSetmeal" resultType="setMeal">
+        select * from
+            t_setmeal
+    </select>
+    <resultMap id="findByResultMap" type="setMeal">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+        <collection property="travelGroups" column="id"
+                    select="com.sysu.mapper.TravelGroupMapper.findTravelGroupListBySetMealId">
+        </collection>
+    </resultMap>
+    <select id="findById" resultMap="findByResultMap" parameterType="int">
+        select * from
+            t_setmeal
+        where
+            id = #{id}
+    </select>
+
+    <select id="getSetMealById" resultType="setMeal">
+        select * from
+            t_setmeal
+        where
+            id = #{id}
+    </select>
+
+    <select id="querySetmealNamesAndCount" resultType="map">
+        SELECT s.`name` `name`,count(1) `value`
+        FROM t_setmeal s,t_order o
+        WHERE s.`id`=o.`setmeal_id`
+        GROUP BY s.`name`;
+    </select>
+
+
+
+
+
+
+
+
+</mapper>

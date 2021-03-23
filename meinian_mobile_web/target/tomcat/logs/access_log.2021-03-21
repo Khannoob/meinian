@@ -1,0 +1,6 @@
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:35 +0800] "GET /pages/setmeal.html HTTP/1.1" 304 - http-bio-80-exec-1 25
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:35 +0800] "GET /img/asset-favico.ico HTTP/1.1" 200 4286 http-bio-80-exec-2 3
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:36 +0800] "POST /setmeal/getSetmeal.do HTTP/1.1" 200 7577 http-bio-80-exec-3 501
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:51 +0800] "GET / HTTP/1.1" 304 - http-bio-80-exec-6 3
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:55 +0800] "GET /pages/setmeal.html HTTP/1.1" 304 - http-bio-80-exec-8 1
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:13:23:55 +0800] "POST /setmeal/getSetmeal.do HTTP/1.1" 200 7577 http-bio-80-exec-9 38

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.PermissionMapper">
+
+    <select id="queryPermissionsByRoleId" resultType="Permission">
+         SELECT *
+         FROM t_permission
+         WHERE id IN(
+            SELECT permission_id
+            FROM t_role_permission
+            WHERE role_id = #{roleId}
+         );
+    </select>
+
+
+</mapper>

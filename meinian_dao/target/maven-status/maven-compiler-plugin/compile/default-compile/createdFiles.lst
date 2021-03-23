@@ -1,0 +1,10 @@
+com\sysu\mapper\MemberMapper.class
+com\sysu\mapper\RoleMapper.class
+com\sysu\mapper\AddressMapper.class
+com\sysu\mapper\OrderSettingMapper.class
+com\sysu\mapper\UserMapper.class
+com\sysu\mapper\OrderMapper.class
+com\sysu\mapper\PermissionMapper.class
+com\sysu\mapper\SetMealMapper.class
+com\sysu\mapper\TravelGroupMapper.class
+com\sysu\mapper\TravelItemMapper.class

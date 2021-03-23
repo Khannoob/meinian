@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.TravelGroupMapper">
+
+    <insert id="add" parameterType="TravelGroup">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+
+        insert into
+            t_travelgroup(code, name, helpCode, sex, remark, attention)
+        values
+            (#{code}, #{name}, #{helpCode}, #{sex}, #{remark}, #{attention})
+    </insert>
+
+    <insert id="setTravelGroupAndTravelItem" parameterType="map">
+        insert into
+            t_travelgroup_travelitem(travelgroup_id,travelitem_id)
+        values
+            (#{travelGroupId},#{travelItemId})
+    </insert>
+
+    <select id="findPage" resultType="TravelGroup">
+        select * from
+            t_travelgroup
+        <if test="value!=null and value.length > 0">
+            <where>
+                code = #{value} or name like concat('%',#{value},'%') or helpCode = #{value}
+            </where>
+        </if>
+
+    </select>
+
+    <select id="queryTravelGroupAndTravelItem" resultType="Long">
+        select
+            count(1)
+        from
+            t_travelgroup_travelitem
+        where
+            travelgroup_id=#{id}
+    </select>
+
+    <delete id="delete">
+        delete from
+             t_travelgroup
+        where
+            id=#{id}
+    </delete>
+
+    <select id="findByTravelGroupId" resultType="TravelGroup">
+        select * from
+            t_travelgroup
+        where
+            id=#{id}
+    </select>
+
+    <select id="findTravelItemIdByTravelGroupId" resultType="int">
+        select
+            travelitem_id
+        from
+            t_travelgroup_travelitem
+        where
+            travelgroup_id=#{id}
+    </select>
+
+    <update id="update" parameterType="TravelGroup">
+        update
+            t_travelgroup
+        <set>
+            <if test="code != null">code=#{code},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="helpCode != null">helpCode=#{helpCode},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="attention != null"> attention=#{attention}</if>
+        </set>
+            where id = #{id}
+    </update>
+
+    <delete id="deleteTravelGroupAndTravelItemIds">
+        delete from
+            t_travelgroup_travelitem
+        where
+            travelgroup_id=#{id}
+    </delete>
+
+    <select id="findAll" resultType="TravelGroup">
+        SELECT
+            *
+        from
+            t_travelgroup
+    </select>
+
+
+
+    <select id="findTravelGroupListBySetMealId" resultMap="findByResultMap" parameterType="int">
+        SELECT * FROM
+            t_travelgroup
+        WHERE
+            id
+        IN ( SELECT travelgroup_id FROM t_setmeal_travelgroup WHERE setmeal_id=#{setmealId});
+    </select>
+
+    <resultMap id="findByResultMap" type="TravelGroup">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <collection property="travelItems" column="id"
+                    select="com.sysu.mapper.TravelItemMapper.findTravelItemListByTravelGroupId">
+        </collection>
+    </resultMap>
+
+
+</mapper>

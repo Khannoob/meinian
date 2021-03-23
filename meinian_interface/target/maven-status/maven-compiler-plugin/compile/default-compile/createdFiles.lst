@@ -1,0 +1,9 @@
+com\sysu\service\MemberService.class
+com\sysu\service\TravelItemService.class
+com\sysu\service\OrderService.class
+com\sysu\service\OrderSettingService.class
+com\sysu\service\ReportService.class
+com\sysu\service\SetMealService.class
+com\sysu\service\TravelGroupService.class
+com\sysu\service\AddressService.class
+com\sysu\service\UserService.class

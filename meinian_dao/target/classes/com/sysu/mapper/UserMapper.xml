@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.UserMapper">
+
+    <resultMap id="queryUserByNameResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="birthday" property="birthday"/>
+        <result column="gender" property="gender"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="remark" property="remark"/>
+        <result column="station" property="station"/>
+        <result column="telephone" property="telephone"/>
+
+        <collection property="roles" select="com.sysu.mapper.RoleMapper.queryRolesByUserId" column="id"/>
+    </resultMap>
+
+    <select id="queryUserByName" resultMap="queryUserByNameResultMap">
+        select * from t_user where username = #{username}
+    </select>
+
+
+</mapper>

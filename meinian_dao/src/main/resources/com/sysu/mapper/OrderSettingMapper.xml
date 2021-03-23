@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.mapper.OrderSettingMapper">
+
+    <select id="queryOrderSettingByDate" resultType="long" parameterType="java.util.Date">
+        select count(1) from
+            t_ordersetting
+        where
+            orderDate = #{orderDate}
+    </select>
+
+    <update id="editOrderSetting" parameterType="OrderSetting">
+        update
+            t_ordersetting
+        set
+            number = #{number}
+        where orderDate = #{orderDate}
+    </update>
+
+    <insert id="addOrderSetting" parameterType="OrderSetting">
+        insert into
+            t_ordersetting(number,orderDate,reservations)
+        values(#{number},#{orderDate},#{reservations})
+    </insert>
+
+    <select id="getOrderSettingByMonth" resultType="OrderSetting">
+        select * from
+            t_ordersetting
+        where
+            orderDate like concat(#{date},'%')
+    </select>
+
+    <select id="queryNumberByDate" parameterType="java.util.Date" resultType="Integer">
+        select reservations from
+            t_ordersetting
+        where
+            orderDate = #{orderDate}
+    </select>
+
+    <delete id="deleteOrderSetting" parameterType="java.util.Date">
+        delete from
+            t_ordersetting
+        where
+            orderDate = #{orderDate}
+    </delete>
+    <select id="findOrderSettingByDate" resultType="OrderSetting">
+                select * from
+            t_ordersetting
+        where
+            orderDate = #{orderDate}
+    </select>
+
+</mapper>
